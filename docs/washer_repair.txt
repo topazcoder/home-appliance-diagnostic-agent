@@ -1,0 +1,43 @@
+WASHING MACHINE REPAIR GUIDE
+Appliance Type: Washer
+Source: washer_repair_manual_v1
+
+--- SYMPTOM: LEAKING WATER ---
+If your washing machine is leaking water, follow these steps:
+1. Check the door seal (gasket) for cracks, tears, or debris buildup. Wipe the seal with a damp cloth and inspect carefully.
+2. Inspect the water inlet hoses at the back of the machine. Tighten any loose connections. Replace hoses that are cracked or bulging.
+3. Check the detergent drawer. Overfilling with detergent causes overflow leaks from the front. Use only HE (High Efficiency) detergent in the recommended amount.
+4. Inspect the drain hose for cracks or loose connections at the back of the machine or at the standpipe.
+5. Run an empty cycle and observe where the water is coming from to isolate the source.
+If leaking persists after these steps, the door seal or water pump may need professional replacement.
+
+--- SYMPTOM: NOT SPINNING ---
+If your washing machine drum is not spinning:
+1. Check if the load is unbalanced. Redistribute clothes evenly inside the drum and restart the spin cycle.
+2. Check the lid switch or door latch. The machine will not spin if the door is not fully closed and latched.
+3. Inspect the drain filter (usually behind a small panel at the front bottom). A clogged filter prevents the machine from draining and spinning. Remove debris and rinse the filter.
+4. Check if the machine is in a paused or delayed start mode. Cancel the cycle and restart.
+5. Listen for a humming sound without spinning — this may indicate a worn drive belt or faulty motor coupling.
+If the drum still does not spin after clearing the filter and rebalancing the load, the drive belt or motor coupling likely needs replacement by a technician.
+
+--- SYMPTOM: NOISY DURING CYCLE ---
+If your washing machine makes loud banging, grinding, or rattling noises:
+1. Check pockets for coins, keys, or small objects that may have entered the drum.
+2. Ensure the machine is level on the floor. Adjust the leveling feet at the base until the machine does not rock.
+3. Check if the load is too large. Overloading causes the drum to bang against the casing. Reduce load size.
+4. A grinding noise during spin may indicate worn drum bearings. This requires professional repair.
+5. A rattling noise may indicate loose counterweights inside the machine. Do not attempt to fix this yourself.
+
+--- SYMPTOM: NOT DRAINING ---
+If your washing machine is not draining water after a cycle:
+1. Check and clean the drain filter located at the front bottom panel. This is the most common cause.
+2. Inspect the drain hose for kinks or blockages. Straighten the hose and ensure it is not inserted too far into the standpipe.
+3. Run a spin-only cycle to force drainage.
+4. Check if the pump is running. If you hear no pump sound, the pump may be faulty and needs replacement.
+
+--- SYMPTOM: FOUL SMELL ---
+If your washing machine has a bad odor:
+1. Run a hot wash cycle (60°C or higher) with a washing machine cleaner or two cups of white vinegar and no laundry.
+2. Clean the door seal thoroughly, paying attention to the folds where mold accumulates.
+3. Leave the door open after every wash to allow the drum to dry out.
+4. Clean the detergent drawer monthly by removing it and rinsing under hot water.

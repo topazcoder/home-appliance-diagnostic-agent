@@ -1,0 +1,42 @@
+DRYER REPAIR GUIDE
+Appliance Type: Dryer
+Source: dryer_repair_manual_v1
+
+--- SYMPTOM: NOT HEATING ---
+If your dryer runs but produces no heat:
+1. Check the lint filter and clean it completely. A clogged lint filter is the most common cause of heating failure.
+2. Check the exhaust vent duct from the back of the dryer to the outside wall. A blocked vent causes the thermal fuse to blow. Clear any lint buildup.
+3. For electric dryers: check your home circuit breaker. Electric dryers use two breaker poles — one pole may have tripped while the other is still on, causing the drum to spin but not heat.
+4. Test the thermal fuse with a multimeter. The thermal fuse is a one-time safety device located on the exhaust duct inside the dryer. If it has no continuity, replace it.
+5. Check the heating element for breaks or burns. A broken heating element requires replacement.
+If the thermal fuse keeps blowing after replacement, the root cause is always a blocked vent duct — clear it completely before replacing the fuse again.
+
+--- SYMPTOM: NOT STARTING ---
+If your dryer does not start at all:
+1. Check that the door is fully closed. The door switch must be engaged for the dryer to start.
+2. Check the power supply. Ensure the dryer is plugged in and the circuit breaker has not tripped.
+3. Press the Start button firmly and hold for 2–3 seconds. Some models require a held press.
+4. Check if a child lock is activated. Refer to your model's manual to deactivate it.
+5. Test the door switch with a multimeter for continuity. A faulty door switch prevents starting.
+
+--- SYMPTOM: TAKING TOO LONG TO DRY ---
+If clothes take multiple cycles to dry:
+1. Clean the lint filter before every cycle. Even a partially clogged filter significantly reduces drying efficiency.
+2. Inspect the exhaust vent duct for partial blockage. Disconnect the duct and check for lint buildup throughout its length.
+3. Ensure the vent duct is not kinked or crushed behind the dryer.
+4. Check the duct length. Ducts longer than 25 feet (with no bends) reduce airflow. Each 90-degree bend reduces effective length by 5 feet.
+5. Do not overload the dryer. Clothes need room to tumble freely for efficient drying.
+6. If using a gas dryer, check that the gas supply valve is fully open.
+
+--- SYMPTOM: NOISY OPERATION ---
+If your dryer makes squealing, thumping, or grinding noises:
+1. A squealing noise usually indicates a worn drum support roller or idler pulley. These require replacement.
+2. A thumping noise when the drum turns may indicate a worn or broken drum glide (drum slide). Inspect and replace if worn.
+3. A grinding noise may indicate a worn drum bearing at the back of the drum. This requires disassembly and professional repair.
+4. Check for foreign objects (coins, buttons) inside the drum by running it empty.
+
+--- SYMPTOM: DRUM NOT TURNING ---
+If the dryer heats but the drum does not spin:
+1. The drive belt is likely broken. The drive belt wraps around the drum and is driven by the motor. Open the dryer cabinet and inspect the belt.
+2. If the belt is intact, check the idler pulley and drum rollers for seizure.
+3. A seized motor is less common but possible — if the motor hums but does not turn, it may need replacement.

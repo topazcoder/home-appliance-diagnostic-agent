@@ -1,0 +1,40 @@
+REFRIGERATOR REPAIR GUIDE
+Appliance Type: Fridge
+Source: fridge_repair_manual_v1
+
+--- SYMPTOM: NOT COOLING ---
+If your refrigerator is not cooling properly:
+1. Check the temperature settings. The fridge compartment should be set between 3°C and 5°C (37°F–41°F). The freezer should be at -18°C (0°F).
+2. Ensure the fridge is not overpacked. Overcrowding blocks airflow between compartments.
+3. Check that the condenser coils at the back or underneath the fridge are not covered in dust. Vacuum the coils carefully with a brush attachment.
+4. Inspect the door seals for gaps or tears. Close the door on a piece of paper — if it slides out easily, the seal needs replacement.
+5. Listen for the compressor running (a low hum). If the compressor is silent and the fridge is warm, the compressor or start relay may be faulty.
+6. Check if the evaporator fan inside the freezer compartment is running. If not, the fan motor may need replacement.
+If the fridge is still not cooling after cleaning coils and checking seals, a technician should inspect the refrigerant level and compressor.
+
+--- SYMPTOM: FREEZING FOOD IN FRIDGE COMPARTMENT ---
+If food in the fridge section is freezing:
+1. Raise the temperature setting by 1–2 degrees.
+2. Check that food is not placed directly in front of the air vents inside the fridge. Move items away from vents.
+3. Inspect the temperature sensor (thermistor). A faulty thermistor causes the fridge to over-cool. This requires professional diagnosis.
+
+--- SYMPTOM: WATER LEAKING INSIDE FRIDGE ---
+If water is pooling inside the fridge:
+1. Locate the defrost drain hole at the back wall inside the fridge compartment. Clear any blockage using a turkey baster with warm water.
+2. Check the drain pan underneath the fridge. If it is cracked or overflowing, replace it.
+3. Inspect the water dispenser line if your fridge has one. Tighten any loose connections.
+
+--- SYMPTOM: ICE MAKER NOT WORKING ---
+If the ice maker is not producing ice:
+1. Check that the ice maker is switched on (some models have a wire arm or toggle switch).
+2. Ensure the freezer temperature is at or below -12°C (10°F). Ice makers do not work above this temperature.
+3. Check the water supply line at the back of the fridge. Make sure the shutoff valve is open and the line is not kinked.
+4. Inspect the water inlet valve for blockage or failure. If water does not flow when the valve is energized, the valve needs replacement.
+5. Reset the ice maker by pressing and holding the reset button for 10 seconds (location varies by model).
+
+--- SYMPTOM: LOUD NOISE ---
+If your refrigerator is making unusual noises:
+1. A rattling noise often comes from the drain pan vibrating. Push it firmly back into place.
+2. A clicking sound when the compressor tries to start may indicate a faulty start relay. Shake the relay — if it rattles, replace it.
+3. A gurgling or hissing sound is normal — it is refrigerant flowing through the system.
+4. A loud buzzing from the back is usually the condenser fan hitting debris. Clean the fan blades carefully.
