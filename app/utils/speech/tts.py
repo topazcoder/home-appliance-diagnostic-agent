@@ -28,37 +28,8 @@ OPENAI_PCM_RATE = 24_000
 
 # Twilio Media Streams expects: 8 kHz, 1 channel, mulaw (G.711)
 TWILIO_SAMPLE_RATE = 8_000
-CHUNK_SIZE = 160  # 20 ms of audio at 8 kHz
-
-
-async def synthesize_speech(text: str) -> list[bytes]:
-    """
-    Synthesize ``text`` using OpenAI TTS and return a list of 160-byte mulaw
-    audio chunks (each = 20 ms) suitable for Twilio Media Streams.
-    """
-    if not text.strip():
-        return []
-
-    try:
-        response = await _openai_client.audio.speech.create(
-            model=OPENAI_TTS_MODEL,
-            voice=OPENAI_TTS_VOICE,
-            input=text,
-            response_format="pcm",  # raw PCM16 @ 24 kHz, no container
-        )
-        pcm_24k = response.content
-    except Exception:
-        logger.exception("tts_synthesis_error", text=text[:60])
-        return []
-
-    try:
-        mulaw_raw = _pcm24k_to_mulaw8k(pcm_24k)
-        chunks = _chunk(mulaw_raw, CHUNK_SIZE)
-        
-        return chunks
-    except Exception:
-        logger.exception("tts_conversion_error")
-        return []
+SAMPLE_WIDTH = 2   # bytes per PCM16 sample
+CHUNK_SIZE = 160   # 20 ms of audio at 8 kHz
 
 
 async def stream_tts(
@@ -68,35 +39,55 @@ async def stream_tts(
     interrupt_event: asyncio.Event,
 ):
     """
-    Synthesize speech sentence-by-sentence and stream mulaw audio back to Twilio.
-    Sentences are split to reduce perceived latency.
+    Synthesize speech sentence-by-sentence using the OpenAI streaming TTS API
+    and forward mulaw audio chunks to Twilio as they arrive.
+
+    Each sentence is requested as a streaming HTTP response so the first audio
+    bytes reach Twilio before the full sentence has been synthesized, cutting
+    perceived TTS latency significantly compared to buffering the whole response.
     """
     sentences = _split_sentences(text)
+    pcm_carry = bytearray()  # leftover PCM bytes that didn't fill a full downsample step
+
     for sentence in sentences:
         if interrupt_event.is_set():
             break
+        if not sentence.strip():
+            continue
         try:
-            mulaw_chunks = await synthesize_speech(sentence)
-            # Re-check after the (potentially slow) OpenAI synthesis call —
-            # the caller may have started speaking while we were waiting.
-            if interrupt_event.is_set():
-                break
-            for chunk in mulaw_chunks:
-                if interrupt_event.is_set():
-                    break
-                payload = base64.b64encode(chunk).decode("utf-8")
-                await websocket.send_json({
-                    "event": "media",
-                    "streamSid": stream_sid,
-                    "media": {"payload": payload},
-                })
-                # Yield to the event loop so cancellation / interrupt can land
-                # between chunks instead of only at the next sentence boundary.
-                await asyncio.sleep(0)
+            async with _openai_client.audio.speech.with_streaming_response.create(
+                model=OPENAI_TTS_MODEL,
+                voice=OPENAI_TTS_VOICE,
+                input=sentence,
+                response_format="pcm",  # raw PCM16 @ 24 kHz, no container
+            ) as response:
+                async for pcm_chunk in response.iter_bytes(chunk_size=4096):
+                    if interrupt_event.is_set():
+                        return
+                    # Accumulate with any leftover bytes from the previous network chunk
+                    pcm_carry.extend(pcm_chunk)
+                    # Keep only complete pairs of samples for the 3:1 downsampler
+                    # (each PCM16 sample = 2 bytes; we consume groups of 6 bytes → 1 mulaw byte)
+                    step_bytes = (OPENAI_PCM_RATE // TWILIO_SAMPLE_RATE) * SAMPLE_WIDTH  # 6
+                    usable = len(pcm_carry) - (len(pcm_carry) % step_bytes)
+                    if usable == 0:
+                        continue
+                    mulaw_raw = _pcm24k_to_mulaw8k(bytes(pcm_carry[:usable]))
+                    pcm_carry = pcm_carry[usable:]
+                    for chunk in _chunk(mulaw_raw, CHUNK_SIZE):
+                        if interrupt_event.is_set():
+                            return
+                        payload = base64.b64encode(chunk).decode("utf-8")
+                        await websocket.send_json({
+                            "event": "media",
+                            "streamSid": stream_sid,
+                            "media": {"payload": payload},
+                        })
+                        await asyncio.sleep(0)
         except asyncio.CancelledError:
             raise
         except Exception:
-            logger.exception("TTS error for sentence: %s", sentence)
+            logger.exception("TTS streaming error for sentence: %s", sentence)
 
 
 def _split_sentences(text: str) -> list[str]:

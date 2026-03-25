@@ -85,53 +85,53 @@ async def media_stream(
 
     session_service = SessionService(db)
     should_end_call = False
+    # In-memory transcript accumulator — avoids Redis round-trips on every
+    # STT callback.  Redis is still used for the image_ready signal only.
+    accumulated_text: str = ""
+
+    async def on_barge_in():
+        """Called by WhisperSTT the moment the probe detects the caller speaking over TTS."""
+        nonlocal tts_task
+        interrupt_event.set()
+        if tts_task and not tts_task.done():
+            tts_task.cancel()
+        interrupt_event.clear()
+        try:
+            await websocket.send_json({"event": "clear", "streamSid": stream_sid})
+        except Exception:
+            pass
 
     async def on_transcript(text: str):
         """Called by WhisperSTT when a transcript is ready."""
         try:
-            nonlocal tts_task, should_end_call
+            nonlocal tts_task, should_end_call, accumulated_text
 
-            content = await redis_client.get(call_sid)
-            if content == None:
-                content = ""
-            content += text
+            # Accumulate in memory — no Redis round-trips in the hot path.
+            accumulated_text += text
+            if not is_valid_text(accumulated_text):
+                accumulated_text = ""
 
-            if not is_valid_text(content):
-                content = ""
-            
-            await redis_client.set(call_sid, content)
-            
-            if not content or is_valid_text(text):
+            # Only proceed when the accumulated content is meaningful and the
+            # most-recent chunk itself carries valid speech (guards against
+            # noise-only flushes advancing the conversation).
+            if not accumulated_text or not is_valid_text(text):
                 return None
-            
+
+            content = accumulated_text
+            accumulated_text = ""  # reset before any await to avoid double-fire
+
             session_data = await session_service.load_latest(call_sid)
 
             logger.info("Transcript", session_id=session_data.id, call_sid=call_sid, text=content)
 
-            await redis_client.set(call_sid, "")
-
-            # Also fire the agent immediately if a photo just arrived
+            # Also fire the agent if a photo just arrived
             # (the image_ready key was set by the upload endpoint)
             has_pending_image = await redis_client.exists(f"image_ready:{call_sid}")
 
             if not content and not has_pending_image:
                 return None
-            if not content and has_pending_image:
-                pass  # agent turn triggered by image only; no speech to barge-in on
-            else:
-                # Valid speech arrived — interrupt any in-progress TTS
-                interrupt_event.set()
-                tts_task.cancel()
-                try:
-                    await tts_task
-                except asyncio.CancelledError:
-                    pass
-                interrupt_event.clear()
-                # Flush any audio already queued in Twilio's jitter buffer
-                try:
-                    await websocket.send_json({"event": "clear", "streamSid": stream_sid})
-                except Exception:
-                    pass
+            # on_barge_in() already cancelled TTS and cleared Twilio's buffer
+            # the moment the probe detected speech. Nothing more to do here.
 
             # Run orchestrator turn
             try:
@@ -174,7 +174,12 @@ async def media_stream(
                 stream_sid = data["start"]["streamSid"]
                 logger.info("Media stream started", call_sid=call_sid)
 
-                stt_client = WhisperSTTClient(on_transcript=on_transcript)
+                stt_client = WhisperSTTClient(
+                    socket=websocket,
+                    stream_sid=stream_sid,
+                    on_transcript=on_transcript,
+                    on_barge_in=on_barge_in,
+                )
 
                 # Send greeting immediately
                 session = await session_service.load_latest(call_sid)
